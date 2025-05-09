@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 17:39:46 by vdurand           #+#    #+#             */
-/*   Updated: 2024/11/08 13:20:02 by vdurand          ###   ########.fr       */
+/*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/09 17:30:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_toupper(int c)
+#include "philosophers.h"
+
+int main(int argc, char **argv)
 {
-	if (c >= 'a' && c <= 'z')
-		return (c - 32);
-	else
-		return (c);
+	t_table	table;
+
+	if (argc != 5)
+		return (EXIT_FAILURE);
+	parse_argv(argv, &table);
+	return (EXIT_SUCCESS);
 }
+

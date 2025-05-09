@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/09 16:32:51 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/09 17:32:14 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ NAME = philo
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = includes
-LIBFT_DIR = libft
 
 VERBOSE = 0
 
@@ -65,9 +64,12 @@ else
     DUMP_OUT = > /dev/null 2>&1
 endif
 
-
 SRC_FILES = \
 	main.c \
+	parse.c \
+	utils/ft_atoi.c \
+	utils/ft_putstr_fd.c \
+	utils/ft_strlen.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -75,23 +77,16 @@ DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 CC = cc -g3
 CFLAGS = -Wall -Werror -Wextra
-INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
-LDFLAGS = -L$(LIBFT_DIR) -lft 
+INCLUDES = -I$(INC_DIR)
 FLAGS = $(CFLAGS) -MMD -MP
 
-all: makelibft $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(SILENT)$(CC) $(FLAGS) $(OBJ) $(LDFLAGS) -o $@
+	$(SILENT)$(CC) $(FLAGS) $(OBJ) -o $@
 	@echo "$(BG_GREEN)>>> Program $(NAME) compiled!$(RESET)"
 
-makelibft:
-	@echo "$(BLUE)>>> Compiling Libft...$(RESET)"
-	$(SILENT)$(MAKE) -C $(LIBFT_DIR) $(DUMP_OUT)
-	$(SILENT)$(MAKE) bonus -C $(LIBFT_DIR) $(DUMP_OUT)
-	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h | $(OBJ_DIR)
 	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
@@ -100,15 +95,11 @@ $(OBJ_DIR):
 	@echo "$(YELLOW)>>> Directory '$(OBJ_DIR)' created!$(RESET)"
 	$(SILENT)mkdir -p $(OBJ_DIR)
 
-cleanlibs:
-	@echo "$(YELLOW)>>> Cleaning libs...$(RESET)"
-	$(SILENT)$(MAKE) fclean -C $(LIBFT_DIR) $(DUMP_OUT)
-
 clean:
 	@echo "$(YELLOW)>>> Cleaning objects$(RESET)"
 	$(SILENT)rm -rf $(OBJ_DIR) $(DUMP_OUT)
 
-fclean: clean cleanlibs
+fclean: clean
 	@echo "$(YELLOW)>>> Cleaning executable...$(RESET)"
 	$(SILENT)rm -f $(NAME) $(DUMP_OUT)
 

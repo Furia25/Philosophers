@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 18:24:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 01:58:20 by val              ###   ########.fr       */
+/*   Created: 2024/11/04 17:39:46 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/09 17:31:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#include <stddef.h>
 
-void	ft_putstr_fd(char *s, int fd)
+size_t	ft_strlen(const char *str)
 {
-	write(fd, s, ft_strlen(s));
+	int	index;
+
+	index = 0;
+	while (str[index])
+		index++;
+	return (index);
 }
