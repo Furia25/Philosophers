@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/09 17:32:14 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/24 19:16:25 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,11 @@ endif
 SRC_FILES = \
 	main.c \
 	parse.c \
+	write.c \
+	structs.c \
+	time_utils.c \
+	thread_monitoring.c \
+	thread_philo.c \
 	utils/ft_atoi.c \
 	utils/ft_putstr_fd.c \
 	utils/ft_strlen.c
@@ -86,7 +91,7 @@ $(NAME): $(OBJ)
 	$(SILENT)$(CC) $(FLAGS) $(OBJ) -o $@
 	@echo "$(BG_GREEN)>>> Program $(NAME) compiled!$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(OBJ_DIR)
 	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
