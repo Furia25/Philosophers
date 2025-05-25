@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/24 19:10:47 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 04:57:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 # include <stddef.h>
 # include <sys/time.h>
 # include <stdint.h>
+# include <stdatomic.h>
+# include <unistd.h>
+# include <stdio.h>
+
+# define PHILO_LOG_FORK	"has taken a fork"
+# define PHILO_LOG_THINKING	"is thinking"
+# define PHILO_LOG_EATING	"is eating"
+# define PHILO_LOG_SLEEPING	"is sleeping"
+# define PHILO_LOG_DIED	"died"
 
 typedef struct s_fork
 {
@@ -30,25 +39,27 @@ typedef struct s_philo	t_philo;
 
 struct s_philo
 {
-	pthread_t	thread;
-	t_table		*table;
-	t_philo		*right_neighbour;
-	t_philo		*left_neighbour;
-	t_fork		fork;
-	size_t		id;
-	size_t		meals_eaten;
-	size_t		last_meal;
+	size_t			id;
+	pthread_t		thread;
+	t_philo			*right_neighbour;
+	t_philo			*left_neighbour;
+	t_fork			fork;
+	pthread_mutex_t	data_mutex;
+	long			meals_eaten;
+	uint64_t		last_meal;
+	int				fork_in_hands;
+	t_table			*table;
 };
 
 /*Main struct representing the table (The program)*/
 struct s_table
 {
 	bool			initialized;
-	t_philo			*philosophers;
+	t_philo			*philos;
 	int				simulation_state;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	state_mutex;
-	size_t			number_of_meal;
+	long			number_of_meal;
 	size_t			philo_number;
 	size_t			time_to_die;
 	size_t			time_to_eat;
@@ -67,7 +78,12 @@ void		clean_table(t_table *table);
 bool		init_table(t_table *table);
 uint64_t	get_time_ms(void);
 
-void		*philo_routine(void *);
-void		*monitoring_routine(void *);
+void		*philo_routine(void *philo_p);
+void		*monitoring_routine(void *table_p);
+
+void		philo_log(char *message, t_philo *philo);
+
+bool		get_simulation_state(t_table *table);
+void		set_simulation_state(bool value, t_table *table);
 
 #endif

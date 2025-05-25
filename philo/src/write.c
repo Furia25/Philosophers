@@ -6,11 +6,23 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:31:53 by val               #+#    #+#             */
-/*   Updated: 2025/05/24 16:45:22 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 04:59:30 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	philo_log(char *message, t_philo *philo)
+{
+	uint64_t	elapsed;
+
+	if (get_simulation_state(philo->table))
+		return ;
+	pthread_mutex_lock(&philo->table->write_mutex);
+	elapsed = get_time_ms() - philo->table->start_time;
+	printf("%lu %zu %s\n", elapsed, philo->id, message);
+	pthread_mutex_unlock(&philo->table->write_mutex);
+}
 
 static void	system_message(char *message, char *message2, char *message3);
 

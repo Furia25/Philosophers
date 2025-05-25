@@ -6,18 +6,64 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/24 19:21:03 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 04:59:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <unistd.h>
 
-void	*philo_routine(void *)
+static void	put_forks(t_philo *philo);
+static void	take_forks(t_philo *philo);
+
+void	*philo_routine(void *philo_p)
 {
-	while (true)
+	t_philo	*self;
+
+	self = (t_philo *)philo_p;
+	pthread_mutex_lock(&self->data_mutex);
+	self->last_meal = get_time_ms();
+	pthread_mutex_unlock(&self->data_mutex);
+	while (!get_simulation_state(self->table))
 	{
-		break;
+		philo_log(PHILO_LOG_THINKING, self);
+		take_forks(self);
+		philo_log(PHILO_LOG_EATING, self);
+		pthread_mutex_lock(&self->data_mutex);
+		self->last_meal = get_time_ms();
+		self->meals_eaten += 1;
+		pthread_mutex_unlock(&self->data_mutex);
+		usleep(self->table->time_to_eat);
+		put_forks(self);
+		philo_log(PHILO_LOG_SLEEPING, self);
+		usleep(self->table->time_to_sleep);
 	}
 	return (NULL);
+}
+
+static void	take_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
+	else
+		pthread_mutex_lock(&philo->fork.mutex);
+	philo_log(PHILO_LOG_FORK, philo);
+	if (philo->id % 2 == 0)
+		pthread_mutex_lock(&philo->fork.mutex);
+	else
+		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
+	philo_log(PHILO_LOG_FORK, philo);
+}
+
+static void	put_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_unlock(&philo->fork.mutex);
+		pthread_mutex_unlock(&philo->right_neighbour->fork.mutex);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->right_neighbour->fork.mutex);
+		pthread_mutex_unlock(&philo->fork.mutex);
+	}
 }

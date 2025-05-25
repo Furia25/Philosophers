@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/24 19:16:25 by val              ###   ########.fr        #
+#    Updated: 2025/05/25 03:42:26 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC_FILES = \
 	write.c \
 	structs.c \
 	time_utils.c \
+	mutex_variables.c \
 	thread_monitoring.c \
 	thread_philo.c \
 	utils/ft_atoi.c \

@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/24 19:22:05 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 02:59:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	parse_argv(argv, &table);
-	if (!init_table(&table) || !create_monitoring(&monitoring, &table) || !create_philosophers(&table))
+	if (!init_table(&table)
+		|| !create_monitoring(&monitoring, &table)
+		|| !create_philosophers(&table))
 	{
 		clean_table(&table);
 		return (EXIT_FAILURE);
@@ -48,12 +50,12 @@ static bool	create_philosophers(t_table *table)
 	index = 0;
 	while (index < table->philo_number)
 	{
-		if (pthread_create(&table->philosophers[index].thread,
-			NULL, &philo_routine, &table->philosophers[index]) != 0)
+		if (pthread_create(&table->philos[index].thread,
+			NULL, &philo_routine, &table->philos[index]) != 0)
 		{
 			error_message("Failed to create thread", NULL, NULL);
 			while (index-- > 0)
-				pthread_join(table->philosophers[index].thread, NULL);
+				pthread_join(table->philos[index].thread, NULL);
 			return (false);
 		}
 		index++;
@@ -78,7 +80,7 @@ static void join_philosophers(t_table *table)
 	index = 0;
 	while (index < table->philo_number)
 	{
-		pthread_join(table->philosophers[index].thread, NULL);
+		pthread_join(table->philos[index].thread, NULL);
 		index++;
 	}
 }

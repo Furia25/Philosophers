@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/24 19:24:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 03:57:13 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ void	clean_table(t_table *table)
 		index = 0;
 		while (index < table->philo_number)
 		{
-			pthread_mutex_destroy(&table->philosophers[index].fork.mutex);
+			pthread_mutex_destroy(&table->philos[index].fork.mutex);
+			pthread_mutex_destroy(&table->philos[index].data_mutex);
 			index++;
 		}
 	}
-	free(table->philosophers);
+	free(table->philos);
 }
 
 static bool	init_mutex(t_table *table);
@@ -42,13 +43,13 @@ bool	init_table(t_table *table)
 		error_message("Failed to create mutex", NULL, NULL);
 		return (false);
 	}
-	table->philosophers = malloc(sizeof(t_philo) * table->philo_number);
-	if (!table->philosophers)
+	table->philos = malloc(sizeof(t_philo) * table->philo_number);
+	if (!table->philos)
 	{
 		error_message("Failed to allocate memory", NULL, NULL);
 		return (false);
 	}
-	memset(table->philosophers, 0, sizeof(t_philo) * table->philo_number);
+	memset(table->philos, 0, sizeof(t_philo) * table->philo_number);
 	if (!init_philosophers(table))
 	{
 		error_message("Failed to create mutex", NULL, NULL);
@@ -71,6 +72,8 @@ static bool	init_mutex(t_table *table)
 	return (true);
 }
 
+static bool	init_philosopher(size_t i, t_philo *philo, t_table *table);
+
 static bool	init_philosophers(t_table *table)
 {
 	size_t	i;
@@ -78,19 +81,34 @@ static bool	init_philosophers(t_table *table)
 	i = 0;
 	while (i < table->philo_number)
 	{
-		table->philosophers[i].id = i;
-		table->philosophers[i].table = table;
-		table->philosophers[i].left_neighbour = &table->philosophers[\
-			(i + table->philo_number - 1) % table->philo_number];
-		table->philosophers[i].right_neighbour = &table->philosophers[\
-			(i + 1) % table->philo_number];
-		if (pthread_mutex_init(&table->philosophers[i].fork.mutex, NULL) != 0)
-		{
-			while (i-- > 0)
-				pthread_mutex_destroy(&table->philosophers[i].fork.mutex);
-			return (false);
-		}
+		if (!init_philosopher(i, &table->philos[i], table))
+			break ;
 		i++;
+	}
+	if (i == table->philo_number)
+		return (true);
+	while (i-- > 0)
+	{
+		pthread_mutex_destroy(&table->philos[i].fork.mutex);
+		pthread_mutex_destroy(&table->philos[i].data_mutex);
+	}
+	return (false);
+}
+
+static bool	init_philosopher(size_t i, t_philo *philo, t_table *table)
+{
+	philo->id = i;
+	philo->table = table;
+	philo->left_neighbour = \
+		&table->philos[(i + table->philo_number - 1) % table->philo_number];
+	philo->right_neighbour = \
+		&table->philos[(i + 1) % table->philo_number];
+	if (pthread_mutex_init(&philo->fork.mutex, NULL) != 0)
+		return (false);
+	if (pthread_mutex_init(&philo->data_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&philo->fork.mutex);
+		return (false);
 	}
 	return (true);
 }
