@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:31:53 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 05:34:02 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 17:39:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	philo_log(char *message, t_philo *philo)
 {
 	uint64_t	elapsed;
 
-	if (get_simulation_state(philo->table))
-		return ;
 	elapsed = get_time_ms() - philo->table->start_time;
 	pthread_mutex_lock(&philo->table->write_mutex);
 	printf("%lu %zu %s\n", elapsed, philo->id, message);

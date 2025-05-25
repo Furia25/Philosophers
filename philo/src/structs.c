@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 05:30:00 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 17:36:23 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ bool	init_table(t_table *table)
 		error_message("Failed to create mutex", NULL, NULL);
 		return (false);
 	}
-	table->start_time = get_time_ms();
 	table->initialized = true;
 	return (true);
 }
@@ -98,7 +97,6 @@ static bool	init_philosophers(t_table *table)
 static bool	init_philosopher(size_t i, t_philo *philo, t_table *table)
 {
 	philo->id = i;
-	philo->last_meal = get_time_ms();
 	philo->table = table;
 	philo->right_neighbour = \
 		&table->philos[(i + 1) % table->philo_number];

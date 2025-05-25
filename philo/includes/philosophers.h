@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 05:34:06 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 17:12:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define PHILO_LOG_EATING	"is eating"
 # define PHILO_LOG_SLEEPING	"is sleeping"
 # define PHILO_LOG_DIED	"died"
+# define SIMULATION_TIME	80000
 
 typedef struct s_fork
 {

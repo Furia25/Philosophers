@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:18 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 05:33:30 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 17:41:50 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	*monitoring_routine(void *table_p)
 	table = (t_table *)table_p;
 	while (true)
 	{
+		usleep(1000);
 		index = 0;
 		while (index < table->philo_number)
 		{
@@ -38,7 +39,6 @@ void	*monitoring_routine(void *table_p)
 			set_simulation_state(true, table);
 			return (NULL);
 		}
-		usleep(1000);
 	}
 	return (NULL);
 }
