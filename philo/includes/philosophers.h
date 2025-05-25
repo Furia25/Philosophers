@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 04:57:01 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 05:34:06 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ struct s_philo
 	size_t			id;
 	pthread_t		thread;
 	t_philo			*right_neighbour;
-	t_philo			*left_neighbour;
 	t_fork			fork;
 	pthread_mutex_t	data_mutex;
 	long			meals_eaten;

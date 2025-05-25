@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 02:59:01 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 05:20:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	join_philosophers(&table);
 	pthread_join(monitoring, NULL);
 	clean_table(&table);
+	printf("%d\n", table.simulation_state);
 	return (EXIT_SUCCESS);
 }
 

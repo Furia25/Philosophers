@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:18 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 04:57:12 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 05:33:30 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*monitoring_routine(void *table_p)
 	int		check_result;
 
 	table = (t_table *)table_p;
-	while (!get_simulation_state(table))
+	while (true)
 	{
 		index = 0;
 		while (index < table->philo_number)

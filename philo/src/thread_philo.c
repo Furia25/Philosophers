@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 04:59:39 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 05:31:14 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	*philo_routine(void *philo_p)
 	t_philo	*self;
 
 	self = (t_philo *)philo_p;
-	pthread_mutex_lock(&self->data_mutex);
-	self->last_meal = get_time_ms();
-	pthread_mutex_unlock(&self->data_mutex);
 	while (!get_simulation_state(self->table))
 	{
 		philo_log(PHILO_LOG_THINKING, self);
@@ -32,10 +29,10 @@ void	*philo_routine(void *philo_p)
 		self->last_meal = get_time_ms();
 		self->meals_eaten += 1;
 		pthread_mutex_unlock(&self->data_mutex);
-		usleep(self->table->time_to_eat);
+		usleep(self->table->time_to_eat * 1000);
 		put_forks(self);
 		philo_log(PHILO_LOG_SLEEPING, self);
-		usleep(self->table->time_to_sleep);
+		usleep(self->table->time_to_sleep * 1000);
 	}
 	return (NULL);
 }

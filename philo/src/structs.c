@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 03:57:13 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 05:30:00 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,8 @@ static bool	init_philosophers(t_table *table)
 static bool	init_philosopher(size_t i, t_philo *philo, t_table *table)
 {
 	philo->id = i;
+	philo->last_meal = get_time_ms();
 	philo->table = table;
-	philo->left_neighbour = \
-		&table->philos[(i + table->philo_number - 1) % table->philo_number];
 	philo->right_neighbour = \
 		&table->philos[(i + 1) % table->philo_number];
 	if (pthread_mutex_init(&philo->fork.mutex, NULL) != 0)
