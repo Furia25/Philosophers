@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 17:12:48 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:56:37 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,6 @@ void		philo_log(char *message, t_philo *philo);
 bool		get_simulation_state(t_table *table);
 void		set_simulation_state(bool value, t_table *table);
 
+void		time_wait_to(uint64_t start_time);
+int			sleep_check(size_t milliseconds, t_table *table)
 #endif

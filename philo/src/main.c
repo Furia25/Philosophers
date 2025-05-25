@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 17:38:55 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 18:04:18 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 static void join_philosophers(t_table *table);
 static bool	create_philosophers(t_table *table);
 static bool	create_monitoring(pthread_t *thread, t_table *table);
-static void	start_time_simulation(t_table *table);
 
 int	main(int argc, char **argv)
 {
@@ -39,24 +38,10 @@ int	main(int argc, char **argv)
 		clean_table(&table);
 		return (EXIT_FAILURE);
 	}
-	start_time_simulation(&table);
 	join_philosophers(&table);
 	pthread_join(monitoring, NULL);
 	clean_table(&table);
 	return (EXIT_SUCCESS);
-}
-
-static void	start_time_simulation(t_table *table)
-{
-	size_t	index;
-
-	table->start_time = get_time_ms();
-	index = 0;
-	while (index < table->philo_number)
-	{
-		table->philos[index].last_meal = table->start_time;
-		index++;
-	}
 }
 
 static bool	create_philosophers(t_table *table)

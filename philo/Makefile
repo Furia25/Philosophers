@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/25 03:42:26 by val              ###   ########.fr        #
+#    Updated: 2025/05/25 19:03:08 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
-CC = cc -g3
+CC = cc -g3 -fsanitize=thread
 CFLAGS = -Wall -Werror -Wextra
 INCLUDES = -I$(INC_DIR)
 FLAGS = $(CFLAGS) -MMD -MP

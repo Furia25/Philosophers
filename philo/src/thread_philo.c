@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 17:41:18 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:57:27 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,24 @@ static void	take_forks(t_philo *philo);
 void	*philo_routine(void *philo_p)
 {
 	t_philo		*self;
-	uint64_t	now;
 
 	self = (t_philo *)philo_p;
-	if (self->id % 2 == 1)
-		usleep(self->table->time_to_eat * 1000 / 2);
+	time_wait_to(self->table->start_time);
 	while (!get_simulation_state(self->table))
 	{
 		philo_log(PHILO_LOG_THINKING, self);
 		take_forks(self);
+		philo_log(PHILO_LOG_EATING, self);
 		pthread_mutex_lock(&self->data_mutex);
-		now = get_time_ms();
-		self->last_meal = now;
+		self->last_meal = get_time_ms();
 		self->meals_eaten += 1;
 		pthread_mutex_unlock(&self->data_mutex);
-		philo_log(PHILO_LOG_EATING, self);
-		usleep(self->table->time_to_eat * 1000);
+		if (!sleep_check(self->table->time_to_eat, self->table))
+			return (NULL);
 		put_forks(self);
 		philo_log(PHILO_LOG_SLEEPING, self);
-		usleep(self->table->time_to_sleep * 1000);
+		if (!sleep_check(self->table->time_to_sleep, self->table))
+			return (NULL);
 	}
 	return (NULL);
 }
