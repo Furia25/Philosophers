@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:17:37 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 20:56:28 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:01:03 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	sleep_check(size_t milliseconds, t_table *table)
 	{
 		if (get_simulation_state(table))
 			return (0);
-		usleep(500);
+		usleep(100);
 	}
 	return (1);
 }

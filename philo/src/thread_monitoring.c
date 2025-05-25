@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:18 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 20:54:03 by val              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:04:05 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static int	check_philos(t_philo *philo, t_table *table)
 	}
 	if (SIMULATION_TIME > 0 && actual_time - table->start_time > SIMULATION_TIME)
 	{
-		philo_log(PHILO_LOG_DIED, philo);
 		set_simulation_state(true, table);
 		return (2);
 	}
