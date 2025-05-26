@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 17:09:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:43:34 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	*philo_routine(void *philo_p)
 
 	self = (t_philo *)philo_p;
 	time_wait_to(self->table->start_time);
+	philo_log(PHILO_LOG_THINKING, self);
 	if (self->id % 2 == 0)
-		usleep(10000);
+		usleep(self->table->time_to_eat);
 	while (!get_simulation_state(self->table))
 	{
-		philo_log(PHILO_LOG_THINKING, self);
 		if (!self->table->even)
 			sleep_check(self->table->time_to_eat, self->table);
 		if (!take_forks(self))
@@ -39,6 +39,7 @@ void	*philo_routine(void *philo_p)
 		philo_log(PHILO_LOG_SLEEPING, self);
 		if (!sleep_check(self->table->time_to_sleep, self->table))
 			return (NULL);
+		philo_log(PHILO_LOG_THINKING, self);
 	}
 	return (NULL);
 }

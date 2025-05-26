@@ -6,13 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 19:04:54 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 20:55:52 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <string.h>
 
+static bool	check_argv(char **argv);
 static void	join_philosophers(t_table *table);
 static bool	create_philosophers(t_table *table);
 static bool	create_monitoring(pthread_t *thread, t_table *table);
@@ -23,7 +24,7 @@ int	main(int argc, char **argv)
 	pthread_t	monitoring;
 
 	memset(&table, 0, sizeof(t_table));
-	if (argc != 5 && argc != 6)
+	if (!check_argv(argv) || (argc != 5 && argc != 6))
 	{
 		error_message(INFO_USAGE, ERROR_INVALID_USAGE, NULL);
 		return (EXIT_FAILURE);
@@ -87,4 +88,24 @@ static void	join_philosophers(t_table *table)
 		pthread_join(table->philos[index].thread, NULL);
 		index++;
 	}
+}
+
+static bool	check_argv(char **argv)
+{
+	size_t	index;
+	char	*str;
+
+	index = 1;
+	while (argv[index])
+	{
+		str = argv[index];
+		while (*str)
+		{
+			if (*str < '0' || *str > '9')
+				return (false);
+			str++;
+		}
+		index++;
+	}
+	return (true);
 }
