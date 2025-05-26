@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 19:04:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:04:54 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static bool	create_monitoring(pthread_t *thread, t_table *table)
 {
 	if (pthread_create(thread, NULL, &monitoring_routine, table) != 0)
 	{
+		set_simulation_state(1, table);
 		error_message(ERROR_THREAD, NULL, NULL);
 		return (false);
 	}
