@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_variables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 02:33:23 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 03:42:59 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 17:09:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ inline bool	get_simulation_state(t_table *table)
 	pthread_mutex_lock(&table->state_mutex);
 	result = table->simulation_state;
 	pthread_mutex_unlock(&table->state_mutex);
-	return (result)	;
+	return (result);
 }
 
 inline void	set_simulation_state(bool value, t_table *table)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 20:59:07 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 16:57:39 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@
 # define PHILO_LOG_EATING	"is eating"
 # define PHILO_LOG_SLEEPING	"is sleeping"
 # define PHILO_LOG_DIED	"died"
-# define SIMULATION_TIME	80000
+
+# define ANNOUNCE_EATEN	"All philosophers ate all required meals"
+# define ANNOUNCE_TIME	"Simulation has reached max simulation time"
+
+# define SIMULATION_TIME	20000
 
 typedef struct s_fork
 {
@@ -65,12 +69,14 @@ struct s_table
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	uint64_t		start_time;
+	bool			even;
 };
 
 size_t		ft_strlen(const char *str);
-void		parse_argv(char **argv, t_table *table);
+bool		parse_argv(char **argv, t_table *table);
 int			ft_atoi(const char *nptr);
 void		ft_putstr_fd(char *s, int fd);
+void		announce(char *message, char *message2, char *message3);
 void		warning_message(char *message, char *message2, char *message3);
 void		error_message(char *error, char *message, char *message2);
 
@@ -88,4 +94,5 @@ void		set_simulation_state(bool value, t_table *table);
 
 void		time_wait_to(uint64_t start_time);
 int			sleep_check(size_t milliseconds, t_table *table);
+
 #endif

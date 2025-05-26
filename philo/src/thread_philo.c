@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   thread_philo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 23:04:57 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 17:09:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 static void	put_forks(t_philo *philo);
-static void	take_forks(t_philo *philo);
+static bool	take_forks(t_philo *philo);
+static void	update_meals(t_philo *self);
 
 void	*philo_routine(void *philo_p)
 {
@@ -21,20 +22,19 @@ void	*philo_routine(void *philo_p)
 
 	self = (t_philo *)philo_p;
 	time_wait_to(self->table->start_time);
+	if (self->id % 2 == 0)
+		usleep(10000);
 	while (!get_simulation_state(self->table))
 	{
 		philo_log(PHILO_LOG_THINKING, self);
-		take_forks(self);
-		pthread_mutex_lock(&self->data_mutex);
-		self->last_meal = get_time_ms();
-		self->meals_eaten += 1;
-		pthread_mutex_unlock(&self->data_mutex);
+		if (!self->table->even)
+			sleep_check(self->table->time_to_eat, self->table);
+		if (!take_forks(self))
+			return (NULL);
+		update_meals(self);
 		philo_log(PHILO_LOG_EATING, self);
 		if (!sleep_check(self->table->time_to_eat, self->table))
-		{
-			put_forks(self);
 			return (NULL);
-		}
 		put_forks(self);
 		philo_log(PHILO_LOG_SLEEPING, self);
 		if (!sleep_check(self->table->time_to_sleep, self->table))
@@ -43,30 +43,68 @@ void	*philo_routine(void *philo_p)
 	return (NULL);
 }
 
-static void	take_forks(t_philo *philo)
+static void	update_meals(t_philo *self)
+{
+	pthread_mutex_lock(&self->data_mutex);
+	self->last_meal = get_time_ms();
+	self->meals_eaten += 1;
+	pthread_mutex_unlock(&self->data_mutex);
+}
+
+static bool	take_fork(t_philo *philo, t_fork *fork)
+{
+	while (true)
+	{
+		if (get_simulation_state(philo->table))
+			return (false);
+		pthread_mutex_lock(&fork->mutex);
+		if (!fork->taken)
+		{
+			philo_log(PHILO_LOG_FORK, philo);
+			fork->taken = 1;
+			pthread_mutex_unlock(&fork->mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&fork->mutex);
+		usleep(500);
+	}
+	return (true);
+}
+
+static bool	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
-		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
+	{
+		if (!take_fork(philo, &philo->right_neighbour->fork))
+			return (false);
+		return (take_fork(philo, &philo->fork));
+	}
 	else
-		pthread_mutex_lock(&philo->fork.mutex);
-	philo_log(PHILO_LOG_FORK, philo);
-	if (philo->id % 2 == 0)
-		pthread_mutex_lock(&philo->fork.mutex);
-	else
-		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
-	philo_log(PHILO_LOG_FORK, philo);
+	{
+		if (!take_fork(philo, &philo->fork))
+			return (false);
+		return (take_fork(philo, &philo->right_neighbour->fork));
+	}
 }
 
 static void	put_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
+		pthread_mutex_lock(&philo->fork.mutex);
+		philo->fork.taken = 0;
 		pthread_mutex_unlock(&philo->fork.mutex);
+		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
+		philo->right_neighbour->fork.taken = 0;
 		pthread_mutex_unlock(&philo->right_neighbour->fork.mutex);
 	}
 	else
 	{
+		pthread_mutex_lock(&philo->right_neighbour->fork.mutex);
+		philo->right_neighbour->fork.taken = 0;
 		pthread_mutex_unlock(&philo->right_neighbour->fork.mutex);
+		pthread_mutex_lock(&philo->fork.mutex);
+		philo->fork.taken = 0;
 		pthread_mutex_unlock(&philo->fork.mutex);
 	}
 }

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   thread_monitoring.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:18 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 23:08:05 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 17:07:23 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 static int	check_philos(t_philo *philo, t_table *table);
+static bool	quit_check_meals(int index, t_table *table);
 
 void	*monitoring_routine(void *table_p)
 {
@@ -29,19 +30,27 @@ void	*monitoring_routine(void *table_p)
 		{
 			check_result = check_philos(&table->philos[index], table);
 			if (check_result == 0)
-				break;
+				break ;
 			if (check_result == 2)
 				return (NULL);
 			index++;
 		}
-		if (table->number_of_meal > -1 && index == table->philo_number)
-		{
-			set_simulation_state(true, table);
+		if (quit_check_meals(index, table))
 			return (NULL);
-		}
 		usleep(1000);
 	}
 	return (NULL);
+}
+
+static bool	quit_check_meals(int index, t_table *table)
+{
+	if (table->number_of_meal > -1 && index == table->philo_number)
+	{
+		announce(ANNOUNCE_EATEN, NULL, NULL);
+		set_simulation_state(true, table);
+		return (true);
+	}
+	return (false);
 }
 
 static int	check_philos(t_philo *philo, t_table *table)
@@ -61,8 +70,10 @@ static int	check_philos(t_philo *philo, t_table *table)
 		set_simulation_state(true, table);
 		return (2);
 	}
-	if (SIMULATION_TIME > 0 && actual_time - table->start_time > SIMULATION_TIME)
+	if (SIMULATION_TIME > 0
+		&& actual_time - table->start_time > SIMULATION_TIME)
 	{
+		announce(ANNOUNCE_TIME, NULL, NULL);
 		set_simulation_state(true, table);
 		return (2);
 	}

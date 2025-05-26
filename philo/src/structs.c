@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/25 18:25:33 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 17:05:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ static bool	init_philosophers(t_table *table);
 
 bool	init_table(t_table *table)
 {
+	if (get_time_ms() == 0)
+		return (false);
+	table->even = table->philo_number % 2 == 0;
 	table->simulation_state = 0;
 	if (!init_mutex(table))
 	{
@@ -50,7 +53,7 @@ bool	init_table(t_table *table)
 		return (false);
 	}
 	memset(table->philos, 0, sizeof(t_philo) * table->philo_number);
-	table->start_time = get_time_ms() + (table->philo_number * 10);
+	table->start_time = get_time_ms() + (table->philo_number * 5);
 	if (!init_philosophers(table))
 	{
 		error_message("Failed to create mutex", NULL, NULL);

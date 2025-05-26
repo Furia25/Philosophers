@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/25 18:04:18 by val              ###   ########.fr       */
+/*   Updated: 2025/05/26 17:09:49 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <string.h>
 
-static void join_philosophers(t_table *table);
+static void	join_philosophers(t_table *table);
 static bool	create_philosophers(t_table *table);
 static bool	create_monitoring(pthread_t *thread, t_table *table);
 
@@ -29,11 +29,13 @@ int	main(int argc, char **argv)
 <time_to_eat> <time_to_sleep> [number_of_meal]", NULL);
 		return (EXIT_FAILURE);
 	}
-	parse_argv(argv, &table);
-	if (!init_table(&table)
-		|| !create_philosophers(&table)
-		|| !create_monitoring(&monitoring, &table)
-		)
+	if (!parse_argv(argv, &table))
+	{
+		error_message("Usage", "Philo's Number has to be a least one", NULL);
+		return (EXIT_FAILURE);
+	}
+	if (!init_table(&table) || !create_philosophers(&table)
+		|| !create_monitoring(&monitoring, &table))
 	{
 		clean_table(&table);
 		return (EXIT_FAILURE);
@@ -52,7 +54,7 @@ static bool	create_philosophers(t_table *table)
 	while (index < table->philo_number)
 	{
 		if (pthread_create(&table->philos[index].thread,
-			NULL, &philo_routine, &table->philos[index]) != 0)
+				NULL, &philo_routine, &table->philos[index]) != 0)
 		{
 			error_message("Failed to create thread", NULL, NULL);
 			while (index-- > 0)
@@ -74,7 +76,7 @@ static bool	create_monitoring(pthread_t *thread, t_table *table)
 	return (true);
 }
 
-static void join_philosophers(t_table *table)
+static void	join_philosophers(t_table *table)
 {
 	size_t	index;
 
