@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 17:21:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:04:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static bool	create_philosophers(t_table *table)
 		if (pthread_create(&table->philos[index].thread,
 				NULL, &philo_routine, &table->philos[index]) != 0)
 		{
+			set_simulation_state(1, table);
 			error_message(ERROR_THREAD, NULL, NULL);
 			while (index-- > 0)
 				pthread_join(table->philos[index].thread, NULL);
