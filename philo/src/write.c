@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:31:53 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 16:32:39 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:07 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ void	philo_log(char *message, t_philo *philo)
 
 static void	system_message(char *message, char *message2, char *message3);
 
-void	announce(char *message, char *message2, char *message3)
+void	announce(char *message, char *message2, char *message3, t_table *table)
 {
+	pthread_mutex_lock(&table->write_mutex);
 	ft_putstr_fd("\033[46m", 2);
 	ft_putstr_fd("Announce:", 2);
 	ft_putstr_fd("\033[0m", 2);
 	ft_putstr_fd(" ", 2);
 	system_message(message, message2, message3);
+	pthread_mutex_unlock(&table->write_mutex);
 }
 
 void	warning_message(char *message, char *message2, char *message3)

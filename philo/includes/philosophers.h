@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 16:57:39 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:55:34 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <stdio.h>
 
+/* LITTERALS LOG DEFINES */
 # define PHILO_LOG_FORK	"has taken a fork"
 # define PHILO_LOG_THINKING	"is thinking"
 # define PHILO_LOG_EATING	"is eating"
@@ -30,6 +31,25 @@
 
 # define ANNOUNCE_EATEN	"All philosophers ate all required meals"
 # define ANNOUNCE_TIME	"Simulation has reached max simulation time"
+
+# define INFO_PHILO_NUMBER	"Philo's number"
+# define INFO_TIME_DIE	"Time to die"
+# define INFO_TIME_EAT	"Time to eat"
+# define INFO_TIME_SLEEP	"Time to sleep"
+# define INFO_WRONG_VALUE	"Wrong value"
+# define INFO_USAGE	"Usage"
+
+# define ERROR_MEMORY	"Failed to allocate memory"
+# define ERROR_MUTEX	"Failed to create mutex"
+# define ERROR_THREAD	"Failed to create thread"
+# define ERROR_PHILONUMBER	"has to be a least one"
+# define ERROR_INVALID_USAGE	"<philo_number> <time_to_die> <time_to_eat> \
+<time_to_sleep> [number_of_meal]"
+
+# define WARNING_VALUE	"value has been set to one"
+# define WARNING_MEALSNULL	"Number of meals of 0, \
+means the simulation will stop instantly"
+/* LITTERALS LOG DEFINES */
 
 # define SIMULATION_TIME	20000
 
@@ -55,7 +75,6 @@ struct s_philo
 	t_table			*table;
 };
 
-/*Main struct representing the table (The program)*/
 struct s_table
 {
 	bool			initialized;
@@ -76,7 +95,8 @@ size_t		ft_strlen(const char *str);
 bool		parse_argv(char **argv, t_table *table);
 int			ft_atoi(const char *nptr);
 void		ft_putstr_fd(char *s, int fd);
-void		announce(char *message, char *message2, char *message3);
+void		announce(char *message, char *message2,
+				char *message3, t_table *table);
 void		warning_message(char *message, char *message2, char *message3);
 void		error_message(char *error, char *message, char *message2);
 

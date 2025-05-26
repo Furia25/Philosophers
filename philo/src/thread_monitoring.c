@@ -6,14 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:18 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 17:07:23 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:48:01 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 static int	check_philos(t_philo *philo, t_table *table);
-static bool	quit_check_meals(int index, t_table *table);
+static bool	quit_check_meals(size_t index, t_table *table);
 
 void	*monitoring_routine(void *table_p)
 {
@@ -42,11 +42,11 @@ void	*monitoring_routine(void *table_p)
 	return (NULL);
 }
 
-static bool	quit_check_meals(int index, t_table *table)
+static bool	quit_check_meals(size_t index, t_table *table)
 {
 	if (table->number_of_meal > -1 && index == table->philo_number)
 	{
-		announce(ANNOUNCE_EATEN, NULL, NULL);
+		announce(ANNOUNCE_EATEN, NULL, NULL, table);
 		set_simulation_state(true, table);
 		return (true);
 	}
@@ -73,8 +73,8 @@ static int	check_philos(t_philo *philo, t_table *table)
 	if (SIMULATION_TIME > 0
 		&& actual_time - table->start_time > SIMULATION_TIME)
 	{
-		announce(ANNOUNCE_TIME, NULL, NULL);
 		set_simulation_state(true, table);
+		announce(ANNOUNCE_TIME, NULL, NULL, table);
 		return (2);
 	}
 	if (table->number_of_meal > -1 && meals < table->number_of_meal)

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 17:05:57 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:23:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ bool	init_table(t_table *table)
 	table->simulation_state = 0;
 	if (!init_mutex(table))
 	{
-		error_message("Failed to create mutex", NULL, NULL);
+		error_message(ERROR_MUTEX, NULL, NULL);
 		return (false);
 	}
 	table->philos = malloc(sizeof(t_philo) * table->philo_number);
 	if (!table->philos)
 	{
-		error_message("Failed to allocate memory", NULL, NULL);
+		error_message(ERROR_MEMORY, NULL, NULL);
 		return (false);
 	}
 	memset(table->philos, 0, sizeof(t_philo) * table->philo_number);
 	table->start_time = get_time_ms() + (table->philo_number * 5);
 	if (!init_philosophers(table))
 	{
-		error_message("Failed to create mutex", NULL, NULL);
+		error_message(ERROR_MUTEX, NULL, NULL);
 		return (false);
 	}
 	table->initialized = true;
