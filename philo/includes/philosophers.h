@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 17:55:34 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:17:47 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 means the simulation will stop instantly"
 /* LITTERALS LOG DEFINES */
 
-# define SIMULATION_TIME	20000
+# define SIMULATION_TIME	-1
 
 typedef struct s_fork
 {
