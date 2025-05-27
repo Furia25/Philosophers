@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 20:49:24 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:15:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define INFO_TIME_EAT	"Time to eat"
 # define INFO_TIME_SLEEP	"Time to sleep"
 # define INFO_WRONG_VALUE	"Wrong value"
-# define INFO_USAGE	"Usage"
+# define INFO_USAGE	"Invalid usage"
 
 # define ERROR_MEMORY	"Failed to allocate memory"
 # define ERROR_MUTEX	"Failed to create mutex"

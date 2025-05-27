@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 17:23:33 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:17:38 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static bool	init_philosophers(t_table *table)
 
 static bool	init_philosopher(size_t i, t_philo *philo, t_table *table)
 {
-	philo->id = i;
+	philo->id = i + 1;
 	philo->table = table;
 	philo->last_meal = table->start_time;
 	philo->right_neighbour = \
