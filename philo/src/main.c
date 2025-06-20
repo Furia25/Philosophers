@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:04:22 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 20:55:52 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:40:58 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static bool	create_monitoring(pthread_t *thread, t_table *table)
 	{
 		set_simulation_state(1, table);
 		error_message(ERROR_THREAD, NULL, NULL);
+		join_philosophers(table);
 		return (false);
 	}
 	return (true);

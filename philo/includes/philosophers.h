@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:33:26 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 22:15:48 by val              ###   ########.fr       */
+/*   Updated: 2025/06/20 16:40:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 # include <stddef.h>
 # include <sys/time.h>
 # include <stdint.h>
-# include <stdatomic.h>
 # include <unistd.h>
 # include <stdio.h>
 
-/* LITTERALS LOG DEFINES */
 # define PHILO_LOG_FORK	"has taken a fork"
 # define PHILO_LOG_THINKING	"is thinking"
 # define PHILO_LOG_EATING	"is eating"
@@ -43,13 +41,13 @@
 # define ERROR_MUTEX	"Failed to create mutex"
 # define ERROR_THREAD	"Failed to create thread"
 # define ERROR_PHILONUMBER	"has to be a least one"
-# define ERROR_INVALID_USAGE	"<philo_number> <time_to_die> <time_to_eat> \
-<time_to_sleep> [number_of_meal]"
+# define ERROR_INVALID_USAGE	"<int : philo_number> <int : time_to_die> \
+<int : time_to_eat> \
+<int : time_to_sleep> [int : number_of_meal]"
 
 # define WARNING_VALUE	"value has been set to one"
 # define WARNING_MEALSNULL	"Number of meals of 0, \
 means the simulation will stop instantly"
-/* LITTERALS LOG DEFINES */
 
 # define SIMULATION_TIME	-1
 
