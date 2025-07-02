@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_philo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:08:06 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 20:43:34 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:04:10 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*philo_routine(void *philo_p)
 	time_wait_to(self->table->start_time);
 	philo_log(PHILO_LOG_THINKING, self);
 	if (self->id % 2 == 0)
-		usleep(self->table->time_to_eat);
+		usleep(10000);
 	while (!get_simulation_state(self->table))
 	{
 		if (!self->table->even)
