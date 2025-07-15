@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:44:28 by val               #+#    #+#             */
-/*   Updated: 2025/05/26 22:17:38 by val              ###   ########.fr       */
+/*   Updated: 2025/07/15 15:57:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ static bool	init_philosopher(size_t i, t_philo *philo, t_table *table)
 	philo->id = i + 1;
 	philo->table = table;
 	philo->last_meal = table->start_time;
-	philo->right_neighbour = \
-		&table->philos[(i + 1) % table->philo_number];
+	philo->right_neighbour = &table->philos[(i + 1) % table->philo_number];
 	if (pthread_mutex_init(&philo->fork.mutex, NULL) != 0)
 		return (false);
 	if (pthread_mutex_init(&philo->data_mutex, NULL) != 0)
